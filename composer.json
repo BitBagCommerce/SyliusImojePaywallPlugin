@@ -1,7 +1,7 @@
 {
-    "name": "sylius/plugin-skeleton",
+    "name": "bitbag/imoje-plugin",
     "type": "sylius-plugin",
-    "description": "Acme example plugin for Sylius.",
+    "description": "Imoje plugin for Sylius.",
     "keywords": [
         "sylius",
         "sylius-plugin"
@@ -64,8 +64,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Acme\\SyliusExamplePlugin\\": "src/",
-            "Tests\\Acme\\SyliusExamplePlugin\\": "tests/"
+            "BitBag\\SyliusImojePlugin\\": "src/",
+            "Tests\\BitBag\\SyliusImojePlugin\\": "tests/"
         }
     },
     "autoload-dev": {
