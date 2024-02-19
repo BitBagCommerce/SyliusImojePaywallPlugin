@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusImojePlugin\Form\Type;
 
-use BitBag\SyliusImojePlugin\Bridge\ImojeBridgeInterface;
+use BitBag\SyliusImojePlugin\Api\ImojeApiInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,8 +18,8 @@ final class ImojeGatewayConfigurationType extends AbstractType
         $builder
             ->add('environment', ChoiceType::class, [
                 'choices' => [
-                    'bitbag.imoje_plugin.configuration.production' => ImojeBridgeInterface::PRODUCTION_ENVIRONMENT,
-                    'bitbag.imoje_plugin.configuration.sandbox' => ImojeBridgeInterface::SANDBOX_ENVIRONMENT,
+                    'bitbag.imoje_plugin.configuration.production' => ImojeApiInterface::PRODUCTION_ENVIRONMENT,
+                    'bitbag.imoje_plugin.configuration.sandbox' => ImojeApiInterface::SANDBOX_ENVIRONMENT,
                 ],
                 'label' => 'bitbag.imoje_plugin.configuration.environment'
                 ]
