@@ -21,7 +21,7 @@ final class NotifyController
     public function verifyImojeNotification(Request $request): Response
     {
         if (!$request->getContent()) {
-            return new Response('', 204);
+            return new Response('', Response::HTTP_NO_CONTENT);
         }
 
         $paymentToken = $this->paymentTokenProvider->provideToken($request);
@@ -32,7 +32,7 @@ final class NotifyController
 
             $gateway->execute(new Notify($notifyToken));
 
-            return new JsonResponse(['status' => 'ok'], 200);
+            return new JsonResponse(['status' => 'ok']);
         } else {
             throw new NotFoundHttpException('Payment token not found');
         }

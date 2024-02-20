@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusImojePlugin\Action;
 
 use BitBag\SyliusImojePlugin\Api\ImojeApi;
+use BitBag\SyliusImojePlugin\Resolver\SignatureResolverInterface;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\ApiAwareInterface;
 use Payum\Core\ApiAwareTrait;
@@ -20,8 +21,10 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
 
     private Request $request;
 
-    public function __construct(private readonly RequestStack $requestStack)
-    {
+    public function __construct(
+        private readonly RequestStack $requestStack,
+        private readonly SignatureResolverInterface $signatureResolver,
+    ) {
         $this->request = $requestStack->getCurrentRequest();
         $this->apiClass = ImojeApi::class;
     }
@@ -44,20 +47,6 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
         return
             $request instanceof Notify
             && $request->getModel() instanceof ArrayObject
-            && $this->verifyNotificationSignature($this->request);
-    }
-
-    private function verifyNotificationSignature(Request $request): bool
-    {
-        $headerSignature = $request->headers->get('X-Imoje-Signature');
-        $body = $request->getContent();
-        $serviceKey = $this->api->getServiceKey();
-
-        $parts = [];
-        parse_str(str_replace([';', '='], ['&', '='], $headerSignature), $parts);
-
-        $ownSignature = hash($parts['alg'], $body . $serviceKey);
-
-        return $ownSignature === $parts['signature'];
+            && $this->signatureResolver->verifySignature($this->request, $this->api->getServiceKey());
     }
 }

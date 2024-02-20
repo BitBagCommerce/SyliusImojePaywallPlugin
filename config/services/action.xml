@@ -7,6 +7,7 @@
         <defaults public="true"/>
 
         <service id="bitbag.imoje_plugin.action.capture" class="BitBag\SyliusImojePlugin\Action\CaptureAction">
+            <argument type="service" id="bitbag.imoje_plugin.resolver.signature_resolver"/>
             <tag name="payum.action" factory="imoje" alias="payum.action.capture"/>
         </service>
 
@@ -15,7 +16,8 @@
         </service>
 
         <service id="bitbag.payu_plugin.action.notify" class="BitBag\SyliusImojePlugin\Action\NotifyAction">
-                <argument type="service" id="request_stack"/>
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="bitbag.imoje_plugin.resolver.signature_resolver"/>
             <tag name="payum.action" factory="imoje" alias="payum.action.notify"/>
         </service>
     </services>

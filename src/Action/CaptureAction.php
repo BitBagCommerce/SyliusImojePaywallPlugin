@@ -6,6 +6,7 @@ namespace BitBag\SyliusImojePlugin\Action;
 
 use BitBag\SyliusImojePlugin\Api\ImojeApi;
 use BitBag\SyliusImojePlugin\Api\ImojeApiInterface;
+use BitBag\SyliusImojePlugin\Resolver\SignatureResolverInterface;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\ApiAwareInterface;
 use Payum\Core\ApiAwareTrait;
@@ -21,7 +22,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
 {
     use ApiAwareTrait;
 
-    public function __construct()
+    public function __construct(private readonly SignatureResolverInterface $signatureResolver)
     {
         $this->apiClass = ImojeApi::class;
     }
@@ -76,25 +77,8 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
         $orderData['customerLastName'] = $billingAddress->getLastName();
         $orderData['urlReturn'] = $token->getAfterUrl();
         $orderData['customerEmail'] = $customer->getEmail();
-        $orderData['signature'] = $this->createSignature($orderData, $this->api->getServiceKey());
+        $orderData['signature'] = $this->signatureResolver->createSignature($orderData, $this->api->getServiceKey());
 
         return $orderData;
-    }
-
-    private function createSignature(array $fields, string $serviceKey): string
-    {
-        ksort($fields);
-
-        $data = array_map(function ($key, $value) {
-            if (is_array($value)) {
-                $value = http_build_query([$key => $value], '', '&');
-                $key = '';
-            }
-            return $key !== '' ? "$key=$value" : $value;
-        }, array_keys($fields), $fields);
-
-        $dataString = implode('&', $data);
-
-        return hash(ImojeApiInterface::HASHING_ALGORITHM, $dataString . $serviceKey) . ';' . ImojeApiInterface::HASHING_ALGORITHM;
     }
 }
