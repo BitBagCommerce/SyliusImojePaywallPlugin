@@ -7,3 +7,5 @@ bitbag:
             service_id: Service ID
             service_key: Service key
             authorization_token: Authorization token
+            environment: Envrionment
+        gateway_label: Imoje gateway

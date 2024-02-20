@@ -1,5 +1,5 @@
 {
-    "name": "bitbag/imoje-plugin",
+    "name": "bitbag/imoje-paywall-plugin",
     "type": "sylius-plugin",
     "description": "Imoje plugin for Sylius.",
     "keywords": [
@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "sylius/sylius": "^1.12",
         "sylius/mailer-bundle":  "^1.8 || ^2.0@beta",
         "symfony/webpack-encore-bundle": "^1.15"
