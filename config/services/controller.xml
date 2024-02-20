@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults public="true"/>
+
+        <service id="bitbag.sylius_imoje_plugin.controller.notify_controller" class="BitBag\SyliusImojePlugin\Controller\NotifyController">
+            <argument type="service" id="payum" />
+            <argument type="service" id="bitbag.imoje_plugin.provider.payment_token_provider" />
+        </service>
+    </services>
+</container>

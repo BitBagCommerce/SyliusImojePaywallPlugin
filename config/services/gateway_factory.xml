@@ -3,9 +3,10 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-    <imports>
-        <import resource="services/**/*.xml"/>
-    </imports>
     <services>
+        <service id="bitbag.imoje_plugin.gateway_factory" class="Payum\Core\Bridge\Symfony\Builder\GatewayFactoryBuilder">
+            <argument>BitBag\SyliusImojePlugin\ImojeGatewayFactory</argument>
+            <tag name="payum.gateway_factory_builder" factory="imoje"/>
+        </service>
     </services>
 </container>

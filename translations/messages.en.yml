@@ -1,0 +1,9 @@
+bitbag:
+    imoje_plugin:
+        configuration:
+            production: Production
+            sandbox: Sandbox
+            merchant_id: Merchant ID
+            service_id: Service ID
+            service_key: Service key
+            authorization_token: Authorization token
