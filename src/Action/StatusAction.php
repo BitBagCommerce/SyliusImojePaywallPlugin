@@ -63,6 +63,6 @@ final class StatusAction implements ActionInterface
     {
         return $request instanceof GetStatusInterface &&
             $request->getModel() instanceof ArrayAccess
-            ;
+        ;
     }
 }

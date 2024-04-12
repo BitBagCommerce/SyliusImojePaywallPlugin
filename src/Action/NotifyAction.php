@@ -22,10 +22,10 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
     private Request $request;
 
     public function __construct(
-        private readonly RequestStack $requestStack,
+        protected RequestStack $requestStack,
         private readonly SignatureResolverInterface $signatureResolver,
     ) {
-        $this->request = $requestStack->getCurrentRequest();
+        $this->request = $requestStack->getCurrentRequest() ?? new Request();
         $this->apiClass = ImojeApi::class;
     }
 
@@ -45,8 +45,8 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
     public function supports($request): bool
     {
         return
-            $request instanceof Notify
-            && $request->getModel() instanceof ArrayObject
-            && $this->signatureResolver->verifySignature($this->request, $this->api->getServiceKey());
+            $request instanceof Notify &&
+            $request->getModel() instanceof ArrayObject &&
+            $this->signatureResolver->verifySignature($this->request, $this->api->getServiceKey());
     }
 }

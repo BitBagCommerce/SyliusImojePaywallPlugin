@@ -12,7 +12,8 @@ class ImojeApi implements ImojeApiInterface
         private readonly string $serviceId,
         private readonly string $serviceKey,
         private readonly string $authorizationToken,
-    ) {}
+    ) {
+    }
 
     public function getApiUrl(): string
     {

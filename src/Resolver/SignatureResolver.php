@@ -18,6 +18,7 @@ final class SignatureResolver implements SignatureResolverInterface
                 $value = http_build_query([$key => $value], '', '&');
                 $key = '';
             }
+
             return $key !== '' ? "$key=$value" : $value;
         }, array_keys($fields), $fields);
 
@@ -32,9 +33,13 @@ final class SignatureResolver implements SignatureResolverInterface
         $body = $request->getContent();
 
         $parts = [];
-        parse_str(str_replace([';', '='], ['&', '='], $headerSignature), $parts);
 
-        $ownSignature = hash($parts['alg'], $body . $serviceKey);
+        if($headerSignature !== null ) {
+            parse_str(str_replace([';', '='], ['&', '='], $headerSignature), $parts);
+        }
+
+        $algo = is_string($parts['alg']) ? $parts['alg'] : 'sha256';
+        $ownSignature = hash($algo, $body . $serviceKey);
 
         return $ownSignature === $parts['signature'];
     }

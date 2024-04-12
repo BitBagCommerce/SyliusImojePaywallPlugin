@@ -16,13 +16,16 @@ final class ImojeGatewayConfigurationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('environment', ChoiceType::class, [
+            ->add(
+                'environment',
+                ChoiceType::class,
+                [
                 'choices' => [
                     'bitbag.imoje_plugin.configuration.production' => ImojeApiInterface::PRODUCTION_ENVIRONMENT,
                     'bitbag.imoje_plugin.configuration.sandbox' => ImojeApiInterface::SANDBOX_ENVIRONMENT,
                 ],
-                'label' => 'bitbag.imoje_plugin.configuration.environment'
-                ]
+                'label' => 'bitbag.imoje_plugin.configuration.environment',
+                ],
             )
             ->add('merchant_id', TextType::class, [
                 'label' => 'bitbag.imoje_plugin.configuration.merchant_id',
@@ -30,10 +33,10 @@ final class ImojeGatewayConfigurationType extends AbstractType
                     new NotBlank(
                         [
                             'message' => 'bitbag.imoje_plugin.configuration.merchant_id.not_blank',
-                            'groups' => ['sylius']
-                        ]
+                            'groups' => ['sylius'],
+                        ],
                     ),
-                ]
+                ],
             ])
             ->add('service_id', TextType::class, [
                 'label' => 'bitbag.imoje_plugin.configuration.service_id',
@@ -41,10 +44,10 @@ final class ImojeGatewayConfigurationType extends AbstractType
                     new NotBlank(
                         [
                             'message' => 'bitbag.imoje_plugin.configuration.service_id.not_blank',
-                            'groups' => ['sylius']
-                        ]
+                            'groups' => ['sylius'],
+                        ],
                     ),
-                ]
+                ],
             ])
             ->add('service_key', TextType::class, [
                 'label' => 'bitbag.imoje_plugin.configuration.service_key',
@@ -52,10 +55,10 @@ final class ImojeGatewayConfigurationType extends AbstractType
                     new NotBlank(
                         [
                             'message' => 'bitbag.imoje_plugin.configuration.service_key.not_blank',
-                            'groups' => ['sylius']
-                        ]
+                            'groups' => ['sylius'],
+                        ],
                     ),
-                ]
+                ],
             ])
             ->add('authorization_token', TextType::class, [
                 'label' => 'bitbag.imoje_plugin.configuration.authorization_token',
@@ -63,10 +66,10 @@ final class ImojeGatewayConfigurationType extends AbstractType
                     new NotBlank(
                         [
                             'message' => 'bitbag.imoje_plugin.configuration.authorization_token.not_blank',
-                            'groups' => ['sylius']
-                        ]
+                            'groups' => ['sylius'],
+                        ],
                     ),
-                ]
+                ],
             ]);
     }
 }

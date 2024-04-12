@@ -16,8 +16,8 @@ final class ImojeGatewayFactory extends GatewayFactory
         $config->defaults(
             [
                 'payum.factory_name' => 'imoje',
-                'payum.factory_title' => 'Imoje'
-            ]
+                'payum.factory_title' => 'Imoje',
+            ],
         );
 
         if (false === (bool) $config['payum.api']) {

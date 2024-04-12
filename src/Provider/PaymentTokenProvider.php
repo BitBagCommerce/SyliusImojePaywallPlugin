@@ -15,7 +15,8 @@ final class PaymentTokenProvider implements PaymentTokenProviderInterface
     public function __construct(
         private readonly RepositoryInterface $orderRepository,
         private readonly RepositoryInterface $paymentTokenRepository,
-    ) {}
+    ) {
+    }
 
     public function provideToken(Request $request): ?PaymentSecurityTokenInterface
     {
@@ -25,16 +26,17 @@ final class PaymentTokenProvider implements PaymentTokenProviderInterface
         $transactionData = $content['transaction'];
 
         $order = $this->getOrder($transactionData);
+        $payments = $order->getPayments();
 
-        foreach ($order->getPayments() as $payment) {
+        foreach ($payments as $payment) {
             $model = $payment->getDetails();
 
             $tokenHash = $model['tokenHash'] ?? null;
 
             if (
-                null !== $tokenHash
-                && $payment->getState() !== PaymentInterface::STATE_CANCELLED
-                && $payment->getState() !== PaymentInterface::STATE_FAILED
+                null !== $tokenHash &&
+                $payment->getState() !== PaymentInterface::STATE_CANCELLED &&
+                $payment->getState() !== PaymentInterface::STATE_FAILED
             ) {
                 return $this->getToken($tokenHash);
             }

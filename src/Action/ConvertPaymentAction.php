@@ -19,7 +19,7 @@ final class ConvertPaymentAction implements ActionInterface
         $request->setResult((array) $details);
     }
 
-    public function supports($request)
+    public function supports($request): bool
     {
         return
             $request instanceof Convert &&

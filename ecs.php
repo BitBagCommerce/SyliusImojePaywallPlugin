@@ -12,6 +12,8 @@ return static function (ECSConfig $ecsConfig): void {
         __DIR__ . '/ecs.php',
     ]);
 
+    putenv('ALLOW_BITBAG_OS_HEADER=0');
+
     $ecsConfig->import('vendor/sylius-labs/coding-standard/ecs.php');
 
     $ecsConfig->skip([

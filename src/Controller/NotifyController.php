@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BitBag\SyliusImojePlugin\Controller;
 
 use BitBag\SyliusImojePlugin\Provider\PaymentTokenProviderInterface;
@@ -16,7 +18,8 @@ final class NotifyController
     public function __construct(
         private readonly Payum $payum,
         private readonly PaymentTokenProviderInterface $paymentTokenProvider,
-    ) {}
+    ) {
+    }
 
     public function verifyImojeNotification(Request $request): Response
     {
@@ -33,14 +36,14 @@ final class NotifyController
             $gateway->execute(new Notify($notifyToken));
 
             return new JsonResponse(['status' => 'ok']);
-        } else {
-            throw new NotFoundHttpException('Payment token not found');
         }
+
+        throw new NotFoundHttpException('Payment token not found');
     }
 
     private function createRequestWithToken(
         Request $request,
-        PaymentSecurityTokenInterface $token
+        PaymentSecurityTokenInterface $token,
     ): Request {
         $request = Request::create(
             $token->getTargetUrl(),
@@ -49,11 +52,11 @@ final class NotifyController
             $request->cookies->all(),
             $request->files->all(),
             $request->server->all(),
-            $request->getContent()
+            $request->getContent(),
         );
 
         $request->attributes->add([
-            'payum_token' => $token->getHash()
+            'payum_token' => $token->getHash(),
         ]);
 
         return $request;
