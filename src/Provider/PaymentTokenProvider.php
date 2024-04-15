@@ -26,6 +26,9 @@ final class PaymentTokenProvider implements PaymentTokenProviderInterface
         $transactionData = $content['transaction'];
 
         $order = $this->getOrder($transactionData);
+        if ($order == null) {
+            return null;
+        }
         $payments = $order->getPayments();
 
         foreach ($payments as $payment) {
@@ -47,11 +50,19 @@ final class PaymentTokenProvider implements PaymentTokenProviderInterface
 
     private function getOrder(array $transactionData): ?OrderInterface
     {
-        return $this->orderRepository->findOneBy(['number' => $transactionData['orderId']]);
+        $order = $this->orderRepository->findOneBy(['number' => $transactionData['orderId']]);
+        if ($order instanceof OrderInterface) {
+            return $order;
+        }
+        return null;
     }
 
     private function getToken(string $hash): ?PaymentSecurityTokenInterface
     {
-        return $this->paymentTokenRepository->findOneBy(['hash' => $hash]);
+        $token =  $this->paymentTokenRepository->findOneBy(['hash' => $hash]);
+        if ($token instanceof PaymentSecurityTokenInterface) {
+            return $token;
+        }
+        return null;
     }
 }
