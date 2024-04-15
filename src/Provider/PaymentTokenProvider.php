@@ -6,7 +6,6 @@
  * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
 */
 
-
 declare(strict_types=1);
 
 namespace BitBag\SyliusImojePlugin\Provider;
@@ -33,9 +32,11 @@ final class PaymentTokenProvider implements PaymentTokenProviderInterface
         $transactionData = $content['transaction'];
 
         $order = $this->getOrder($transactionData);
+
         if ($order == null) {
             return null;
         }
+
         $payments = $order->getPayments();
 
         foreach ($payments as $payment) {
@@ -57,19 +58,17 @@ final class PaymentTokenProvider implements PaymentTokenProviderInterface
 
     private function getOrder(array $transactionData): ?OrderInterface
     {
+        /** @var OrderInterface|null $order */
         $order = $this->orderRepository->findOneBy(['number' => $transactionData['orderId']]);
-        if ($order instanceof OrderInterface) {
-            return $order;
-        }
-        return null;
+
+        return $order;
     }
 
     private function getToken(string $hash): ?PaymentSecurityTokenInterface
     {
-        $token =  $this->paymentTokenRepository->findOneBy(['hash' => $hash]);
-        if ($token instanceof PaymentSecurityTokenInterface) {
-            return $token;
-        }
-        return null;
+        /** @var PaymentSecurityTokenInterface|null $token */
+        $token = $this->paymentTokenRepository->findOneBy(['hash' => $hash]);
+
+        return $token;
     }
 }
