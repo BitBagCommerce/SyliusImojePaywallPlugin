@@ -3,6 +3,6 @@
     "description": "Sylius application for plugin testing purposes (composer.json needed for project dir resolving)",
     "license": "MIT",
     "require": {
-        "doctrine/annotations": "^2.0"
+        "doctrine/annotations": "^1.14"
     }
 }

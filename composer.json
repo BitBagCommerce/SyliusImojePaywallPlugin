@@ -8,8 +8,8 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.0",
-        "doctrine/annotations": "^2.0.1",
+        "php": "^8.1",
+        "doctrine/annotations": "^1.14",
         "sylius/mailer-bundle": "^1.8 || ^2.0@beta",
         "sylius/sylius": "^1.12",
         "symfony/skeleton": "5.4.*",
