@@ -26,6 +26,7 @@ final class PaymentTokenProvider implements PaymentTokenProviderInterface
 
     public function provideToken(Request $request): ?PaymentSecurityTokenInterface
     {
+        /** @var string $content */
         $content = $request->getContent();
         $content = json_decode($content, true);
 
