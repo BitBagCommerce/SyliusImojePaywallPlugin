@@ -39,7 +39,7 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
     {
         RequestNotSupportedException::assertSupports($this, $request);
 
-        /** @var String $content */
+        /** @var string $content */
         $content = $this->request->getContent();
         $notificationData = json_decode($content, true);
         $transactionData = $notificationData['transaction'];
