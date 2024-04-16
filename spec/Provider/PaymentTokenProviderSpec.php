@@ -19,7 +19,7 @@ use Sylius\Component\Payment\Model\PaymentInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class PaymentTokenProviderSpec extends ObjectBehavior
+final class PaymentTokenProviderSpec extends ObjectBehavior
 {
     public function let(
         RepositoryInterface $orderRepository,
@@ -48,30 +48,18 @@ class PaymentTokenProviderSpec extends ObjectBehavior
             'transaction' => [
                 'orderId' => $orderNumber,
                 'tokenHash' => $tokenHash,
-            ]
+            ],
         ];
 
-        $request->getContent()
-            ->willReturn(json_encode($transactionData));
-
-        $orderRepository->findOneBy(['number' => $orderNumber])
-            ->willReturn($order);
-
+        $request->getContent()->willReturn(json_encode($transactionData));
+        $orderRepository->findOneBy(['number' => $orderNumber])->willReturn($order);
         $order->getPayments()
             ->willReturn(new ArrayCollection([
-                $payment->getWrappedObject()
+                $payment->getWrappedObject(),
             ]));
-
-        $payment->getState()
-            ->willReturn(PaymentInterface::STATE_NEW);
-
-        $payment->getDetails()
-            ->shouldBeCalled()
-            ->willReturn(['tokenHash' => $tokenHash]);
-
-        $paymentTokenRepository->findOneBy(['hash' => $tokenHash])
-            ->willReturn($token)
-            ->shouldBeCalled();
+        $payment->getState()->willReturn(PaymentInterface::STATE_NEW);
+        $payment->getDetails()->willReturn(['tokenHash' => $tokenHash]);
+        $paymentTokenRepository->findOneBy(['hash' => $tokenHash])->willReturn($token);
 
         $this->provideToken($request)->shouldReturn($token);
     }
@@ -84,34 +72,22 @@ class PaymentTokenProviderSpec extends ObjectBehavior
     ): void {
         $orderNumber = 500;
         $tokenHash = '3423423453fsxzc';
-
         $transactionData = [
             'transaction' => [
                 'orderId' => $orderNumber,
                 'tokenHash' => $tokenHash,
-            ]
+            ],
         ];
-
-        $request->getContent()
-            ->willReturn(json_encode($transactionData));
-
+        $request->getContent()->willReturn(json_encode($transactionData));
         $orderRepository->findOneBy(['number' => $orderNumber])
             ->willReturn($order);
-
         $order->getPayments()
             ->willReturn(new ArrayCollection([
-                $payment->getWrappedObject()
+                $payment->getWrappedObject(),
             ]));
-
-        $payment->getState()
-            ->willReturn(PaymentInterface::STATE_CANCELLED);
-
-        $payment->getDetails()
-            ->shouldBeCalled()
-            ->willReturn(['tokenHash' => $tokenHash]);
-
+        $payment->getState()->willReturn(PaymentInterface::STATE_CANCELLED);
+        $payment->getDetails()->willReturn(['tokenHash' => $tokenHash]);
 
         $this->provideToken($request)->shouldReturn(null);
-
     }
 }

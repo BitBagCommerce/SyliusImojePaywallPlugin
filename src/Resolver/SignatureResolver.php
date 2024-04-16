@@ -12,6 +12,7 @@ namespace BitBag\SyliusImojePlugin\Resolver;
 
 use BitBag\SyliusImojePlugin\Api\ImojeApiInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Webmozart\Assert\Assert;
 
 final class SignatureResolver implements SignatureResolverInterface
 {
@@ -35,17 +36,17 @@ final class SignatureResolver implements SignatureResolverInterface
 
     public function verifySignature(Request $request, string $serviceKey): bool
     {
+        /** @var string $headerSignature */
         $headerSignature = $request->headers->get('X-Imoje-Signature');
         $body = $request->getContent();
 
         $parts = [];
+        parse_str(str_replace([';', '='], ['&', '='], $headerSignature), $parts);
 
-        if ($headerSignature !== null) {
-            parse_str(str_replace([';', '='], ['&', '='], $headerSignature), $parts);
-        }
+        Assert::keyExists($parts, 'alg');
+        Assert::string($parts['alg']);
 
-        $algo = is_string($parts['alg']) ? $parts['alg'] : 'sha256';
-        $ownSignature = hash($algo, $body . $serviceKey);
+        $ownSignature = hash($parts['alg'], $body . $serviceKey);
 
         return $ownSignature === $parts['signature'];
     }

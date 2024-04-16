@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusImojePlugin\Provider;
 
+use Ramsey\Collection\Collection;
 use Sylius\Bundle\PayumBundle\Model\PaymentSecurityTokenInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
@@ -32,12 +33,10 @@ final class PaymentTokenProvider implements PaymentTokenProviderInterface
 
         $transactionData = $content['transaction'];
 
+        /** @var OrderInterface $order */
         $order = $this->getOrder($transactionData);
 
-        if ($order == null) {
-            return null;
-        }
-
+        /** @var Collection $payments */
         $payments = $order->getPayments();
 
         foreach ($payments as $payment) {

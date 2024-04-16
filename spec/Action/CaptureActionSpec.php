@@ -24,16 +24,17 @@ use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Customer\Model\CustomerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class CaptureActionSpec extends ObjectBehavior
+final class CaptureActionSpec extends ObjectBehavior
 {
     public function let(
         SignatureResolverInterface $signatureResolver,
     ): void {
         $this->beConstructedWith($signatureResolver);
     }
+
     public function it_should_return_true_when_request_and_model_is_valid(
         Capture $request,
-        ArrayObject $arrayObject
+        ArrayObject $arrayObject,
     ): void {
         $request->getModel()->willReturn($arrayObject);
         $this->supports($request)->shouldReturn(true);
@@ -45,6 +46,7 @@ class CaptureActionSpec extends ObjectBehavior
         $request->getModel()->willReturn(null);
         $this->supports($request)->shouldReturn(false);
     }
+
     public function it_should_return_false_when_request_invalid(
         Request $request,
     ): void {
@@ -61,8 +63,7 @@ class CaptureActionSpec extends ObjectBehavior
         ImojeApi $apiClass,
         SignatureResolverInterface $signatureResolver,
     ): void {
-
-        $data = ['statusImoje' => ImojeApiInterface::NEW_STATUS, 'paymentId' => 123, 'tokenHash'=>'1234sdcsdfxz'];
+        $data = ['statusImoje' => ImojeApiInterface::NEW_STATUS, 'paymentId' => 123, 'tokenHash' => '1234sdcsdfxz'];
         $request->getModel()->willReturn(new ArrayObject($data));
 
         $request->getToken()->willReturn('1234sdcsdfxz');
@@ -77,7 +78,6 @@ class CaptureActionSpec extends ObjectBehavior
         $apiClass->getServiceKey()->willReturn('1234sdcsdfxz');
         $order->getBillingAddress()->willReturn($address);
         $order->getCustomer()->willReturn($customer);
-
 
         $apiClass->getApiUrl()->willReturn('http://example.com/');
 
@@ -100,15 +100,15 @@ class CaptureActionSpec extends ObjectBehavior
             'customerFirstName' => 'John Doe',
             'customerLastName' => 'Smith',
             'urlReturn' => 'http://example.com/',
-            'customerEmail' => 'john@doe.com'
+            'customerEmail' => 'john@doe.com',
         ];
 
-      $signatureResolver->createSignature($orderData,'1234sdcsdfxz')
-            ->willReturn('signature');
+        $signatureResolver->createSignature($orderData, '1234sdcsdfxz')
+              ->willReturn('signature');
 
-      $request->setModel(new ArrayObject($data))->shouldBeCalled();
+        $request->setModel(new ArrayObject($data))->shouldBeCalled();
+
         $this->setApi($apiClass);
-
         $this->shouldThrow(HttpPostRedirect::class)
             ->during('execute', [$request]);
     }

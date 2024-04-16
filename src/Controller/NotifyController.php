@@ -29,7 +29,7 @@ final class NotifyController
 
     public function verifyImojeNotification(Request $request): Response
     {
-        if ($request->getContent() === '') {
+        if ($request->getContent() !== '') {
             return new Response('', Response::HTTP_NO_CONTENT);
         }
 

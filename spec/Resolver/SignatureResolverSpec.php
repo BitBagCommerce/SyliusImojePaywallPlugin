@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\BitBag\SyliusImojePlugin\Resolver;
 
 use BitBag\SyliusImojePlugin\Api\ImojeApiInterface;
 use BitBag\SyliusImojePlugin\Resolver\SignatureResolver;
-use Symfony\Component\HttpFoundation\Request;
 use PhpSpec\ObjectBehavior;
+use Symfony\Component\HttpFoundation\Request;
 
-class SignatureResolverSpec extends ObjectBehavior
+final class SignatureResolverSpec extends ObjectBehavior
 {
     function it_is_initializable(): void
     {
@@ -24,9 +26,9 @@ class SignatureResolverSpec extends ObjectBehavior
         $expectedDataString = 'field1=value1&field2=value2';
         $expectedHash = hash(ImojeApiInterface::HASHING_ALGORITHM, $expectedDataString . $serviceKey) . ';' . ImojeApiInterface::HASHING_ALGORITHM;
 
-        $this->createSignature($fields, $serviceKey)
-            ->shouldReturn($expectedHash);
+        $this->createSignature($fields, $serviceKey)->shouldReturn($expectedHash);
     }
+
     public function it_should_return_hash_with_service_key_only_when_fields_are_empty(): void
     {
         $fields = [];
@@ -44,55 +46,50 @@ class SignatureResolverSpec extends ObjectBehavior
         ];
         $serviceKey = '';
         $expectedDataString = 'field1=value1&field2=value2';
+        $expectedHash = hash(ImojeApiInterface::HASHING_ALGORITHM, $expectedDataString) . ';' . ImojeApiInterface::HASHING_ALGORITHM;
 
-        $expectedHash = hash(ImojeApiInterface::HASHING_ALGORITHM, $expectedDataString ) . ';' . ImojeApiInterface::HASHING_ALGORITHM;
-
-        $this->createSignature($fields, $serviceKey)
-            ->shouldReturn($expectedHash);
+        $this->createSignature($fields, $serviceKey)->shouldReturn($expectedHash);
     }
 
     public function it_should_return_true_if_signatures_match(
-        Request $request
+        Request $request,
     ): void {
         $serviceKey = 'adasvcx3412';
         $body = 'test.jpg';
-        $exampleHash = hash('sha256',sprintf('test.jpg%s',$serviceKey));
-        $headerSignature = sprintf('alg=sha256;signature=%s',$exampleHash);
-
+        $exampleHash = hash('sha256', sprintf('test.jpg%s', $serviceKey));
+        $headerSignature = sprintf('alg=sha256;signature=%s', $exampleHash);
         $request->getContent()->willReturn($body);
+
         $request->headers = new \Symfony\Component\HttpFoundation\HeaderBag(['X-Imoje-Signature' => $headerSignature]);
 
         $this->verifySignature($request, $serviceKey)->shouldBe(true);
-
     }
 
     public function it_should_return_false_if_signatures_not_match(
-        Request $request
+        Request $request,
     ): void {
         $serviceKey = 'adasvcx3412';
         $body = 'test2.jpg';
-        $exampleHash = hash('sha256',sprintf('test.jpg%s',$serviceKey));
-        $headerSignature = sprintf('alg=sha256;signature=%s',$exampleHash);
-
+        $exampleHash = hash('sha256', sprintf('test.jpg%s', $serviceKey));
+        $headerSignature = sprintf('alg=sha256;signature=%s', $exampleHash);
         $request->getContent()->willReturn($body);
+
         $request->headers = new \Symfony\Component\HttpFoundation\HeaderBag(['X-Imoje-Signature' => $headerSignature]);
 
         $this->verifySignature($request, $serviceKey)->shouldBe(false);
-
     }
 
     public function it_should_return_false_if_content_is_empty(
-        Request $request
+        Request $request,
     ): void {
         $serviceKey = '';
         $body = '';
         $exampleHash = '';
-        $headerSignature = sprintf('alg=sha256;signature=%s',$exampleHash);
-
+        $headerSignature = sprintf('alg=sha256;signature=%s', $exampleHash);
         $request->getContent()->willReturn($body);
+
         $request->headers = new \Symfony\Component\HttpFoundation\HeaderBag(['X-Imoje-Signature' => $headerSignature]);
 
         $this->verifySignature($request, $serviceKey)->shouldBe(false);
-
     }
 }

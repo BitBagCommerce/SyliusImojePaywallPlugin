@@ -28,7 +28,7 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
     private Request $request;
 
     public function __construct(
-        protected RequestStack $requestStack,
+        private readonly RequestStack $requestStack,
         private readonly SignatureResolverInterface $signatureResolver,
     ) {
         $this->request = $requestStack->getCurrentRequest() ?? new Request();
