@@ -29,22 +29,22 @@ final class NotifyController
 
     public function verifyImojeNotification(Request $request): Response
     {
-        if ($request->getContent() !== '') {
+        if ('' !== $request->getContent()) {
             return new Response('', Response::HTTP_NO_CONTENT);
         }
 
         $paymentToken = $this->paymentTokenProvider->provideToken($request);
 
-        if (null !== $paymentToken) {
-            $notifyToken = $this->payum->getHttpRequestVerifier()->verify($this->createRequestWithToken($request, $paymentToken));
-            $gateway = $this->payum->getGateway($notifyToken->getGatewayName());
-
-            $gateway->execute(new Notify($notifyToken));
-
-            return new JsonResponse(['status' => 'ok']);
+        if (null === $paymentToken) {
+            throw new NotFoundHttpException('Payment token not found');
         }
 
-        throw new NotFoundHttpException('Payment token not found');
+        $notifyToken = $this->payum->getHttpRequestVerifier()->verify($this->createRequestWithToken($request, $paymentToken));
+        $gateway = $this->payum->getGateway($notifyToken->getGatewayName());
+
+        $gateway->execute(new Notify($notifyToken));
+
+        return new JsonResponse(['status' => 'ok']);
     }
 
     private function createRequestWithToken(

@@ -37,6 +37,7 @@ final class CaptureActionSpec extends ObjectBehavior
         ArrayObject $arrayObject,
     ): void {
         $request->getModel()->willReturn($arrayObject);
+
         $this->supports($request)->shouldReturn(true);
     }
 
@@ -47,7 +48,7 @@ final class CaptureActionSpec extends ObjectBehavior
         $this->supports($request)->shouldReturn(false);
     }
 
-    public function it_should_return_false_when_request_invalid(
+    public function it_should_return_false_when_request_is_not_a_capture_instance(
         Request $request,
     ): void {
         $this->supports($request)->shouldReturn(false);
