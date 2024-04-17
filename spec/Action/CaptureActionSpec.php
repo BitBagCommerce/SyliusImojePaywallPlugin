@@ -45,6 +45,7 @@ final class CaptureActionSpec extends ObjectBehavior
         Capture $request,
     ): void {
         $request->getModel()->willReturn(null);
+
         $this->supports($request)->shouldReturn(false);
     }
 
