@@ -11,17 +11,17 @@
             <tag name="payum.action" factory="imoje" alias="payum.action.capture"/>
         </service>
 
-        <service id="bitbag.payu_plugin.action.status" class="BitBag\SyliusImojePlugin\Action\StatusAction">
+        <service id="bitbag.imoje_plugin.action.status" class="BitBag\SyliusImojePlugin\Action\StatusAction">
             <tag name="payum.action" factory="imoje" alias="payum.action.status"/>
         </service>
 
-        <service id="bitbag.payu_plugin.action.notify" class="BitBag\SyliusImojePlugin\Action\NotifyAction">
+        <service id="bitbag.imoje_plugin.action.notify" class="BitBag\SyliusImojePlugin\Action\NotifyAction">
             <argument type="service" id="request_stack"/>
             <argument type="service" id="bitbag.imoje_plugin.resolver.signature_resolver"/>
             <tag name="payum.action" factory="imoje" alias="payum.action.notify"/>
         </service>
 
-        <service id="bitbag.payu_plugin.action.convert_payment" class="BitBag\SyliusImojePlugin\Action\ConvertPaymentAction">
+        <service id="bitbag.imoje_plugin.action.convert_payment" class="BitBag\SyliusImojePlugin\Action\ConvertPaymentAction">
             <tag name="payum.action" factory="imoje" alias="payum.action.convert_payment"/>
         </service>
     </services>
