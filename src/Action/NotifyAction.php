@@ -39,7 +39,7 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
     {
         RequestNotSupportedException::assertSupports($this, $request);
 
-        if(null == $this->request){
+        if (null == $this->request) {
             throw new \Exception('Request is empty');
         }
 
@@ -56,9 +56,10 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
 
     public function supports($request): bool
     {
-        if(null == $this->request){
-          return false;
+        if (null == $this->request) {
+            return false;
         }
+
         return
             $request instanceof Notify &&
             $request->getModel() instanceof ArrayObject &&
