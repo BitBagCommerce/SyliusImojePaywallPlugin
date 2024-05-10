@@ -25,7 +25,7 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
 {
     use ApiAwareTrait;
 
-    private Request $request;
+    private ?Request $request;
 
     public function __construct(
         private readonly RequestStack $requestStack,
@@ -38,6 +38,10 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
     public function execute($request): void
     {
         RequestNotSupportedException::assertSupports($this, $request);
+
+        if(null == $this->request){
+            throw new \Exception('Request is empty');
+        }
 
         /** @var string $content */
         $content = $this->request->getContent();
@@ -52,6 +56,9 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
 
     public function supports($request): bool
     {
+        if(null == $this->request){
+          return false;
+        }
         return
             $request instanceof Notify &&
             $request->getModel() instanceof ArrayObject &&
