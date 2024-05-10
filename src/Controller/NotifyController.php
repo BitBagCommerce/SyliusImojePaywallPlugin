@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
+declare(strict_types=1);
+
 namespace BitBag\SyliusImojePlugin\Controller;
 
 use BitBag\SyliusImojePlugin\Provider\PaymentTokenProviderInterface;
@@ -16,31 +24,32 @@ final class NotifyController
     public function __construct(
         private readonly Payum $payum,
         private readonly PaymentTokenProviderInterface $paymentTokenProvider,
-    ) {}
+    ) {
+    }
 
     public function verifyImojeNotification(Request $request): Response
     {
-        if (!$request->getContent()) {
+        if ('' !== $request->getContent()) {
             return new Response('', Response::HTTP_NO_CONTENT);
         }
 
         $paymentToken = $this->paymentTokenProvider->provideToken($request);
 
-        if (null !== $paymentToken) {
-            $notifyToken = $this->payum->getHttpRequestVerifier()->verify($this->createRequestWithToken($request, $paymentToken));
-            $gateway = $this->payum->getGateway($notifyToken->getGatewayName());
-
-            $gateway->execute(new Notify($notifyToken));
-
-            return new JsonResponse(['status' => 'ok']);
-        } else {
+        if (null === $paymentToken) {
             throw new NotFoundHttpException('Payment token not found');
         }
+
+        $notifyToken = $this->payum->getHttpRequestVerifier()->verify($this->createRequestWithToken($request, $paymentToken));
+        $gateway = $this->payum->getGateway($notifyToken->getGatewayName());
+
+        $gateway->execute(new Notify($notifyToken));
+
+        return new JsonResponse(['status' => 'ok']);
     }
 
     private function createRequestWithToken(
         Request $request,
-        PaymentSecurityTokenInterface $token
+        PaymentSecurityTokenInterface $token,
     ): Request {
         $request = Request::create(
             $token->getTargetUrl(),
@@ -49,11 +58,11 @@ final class NotifyController
             $request->cookies->all(),
             $request->files->all(),
             $request->server->all(),
-            $request->getContent()
+            $request->getContent(),
         );
 
         $request->attributes->add([
-            'payum_token' => $token->getHash()
+            'payum_token' => $token->getHash(),
         ]);
 
         return $request;

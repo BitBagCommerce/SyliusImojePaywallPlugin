@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
 declare(strict_types=1);
 
 namespace BitBag\SyliusImojePlugin\Action;
@@ -27,7 +33,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
         $this->apiClass = ImojeApi::class;
     }
 
-    public function execute($request)
+    public function execute($request): void
     {
         RequestNotSupportedException::assertSupports($this, $request);
         $model = $request->getModel();
@@ -50,15 +56,15 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
 
         throw new HttpPostRedirect(
             $this->api->getApiUrl(),
-            $orderData
+            $orderData,
         );
     }
 
     public function supports($request): bool
     {
         return
-            $request instanceof Capture
-            && $request->getModel() instanceof ArrayObject;
+            $request instanceof Capture &&
+            $request->getModel() instanceof ArrayObject;
     }
 
     private function prepareOrderData(OrderInterface $order, PaymentSecurityTokenInterface $token): array
@@ -73,10 +79,10 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
         $orderData['amount'] = $order->getTotal();
         $orderData['currency'] = $order->getCurrencyCode();
         $orderData['orderId'] = $order->getNumber();
-        $orderData['customerFirstName'] = $billingAddress->getFirstName();
-        $orderData['customerLastName'] = $billingAddress->getLastName();
+        $orderData['customerFirstName'] = $billingAddress?->getFirstName();
+        $orderData['customerLastName'] = $billingAddress?->getLastName();
         $orderData['urlReturn'] = $token->getAfterUrl();
-        $orderData['customerEmail'] = $customer->getEmail();
+        $orderData['customerEmail'] = $customer?->getEmail();
         $orderData['signature'] = $this->signatureResolver->createSignature($orderData, $this->api->getServiceKey());
 
         return $orderData;
