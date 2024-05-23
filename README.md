@@ -42,7 +42,7 @@ We work on stable, supported, and up-to-date versions of packages. We recommend 
 1. Require our plugin with composer:
 
     ```bash
-    composer require bitbag/imoje-paywall-plugin
+    composer require bitbag/imoje-paywall-plugin --with-all-dependencies
     ```
 
 2. Add plugin dependencies to your `config/bundles.php` file:
