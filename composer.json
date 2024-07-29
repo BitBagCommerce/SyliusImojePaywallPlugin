@@ -52,7 +52,7 @@
         "sort-packages": true,
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": false,
-            "phpstan/extension-installer": true,
+            "phpstan/extension-installer": true
         }
     },
     "autoload": {
