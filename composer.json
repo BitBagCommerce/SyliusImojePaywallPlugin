@@ -10,7 +10,7 @@
     "require": {
         "php": "^8.0",
         "doctrine/annotations": "^1.14",
-        "sylius/sylius": "v1.12.1",
+        "sylius/sylius": "^1.12 || ^1.13",
         "sylius/mailer-bundle":  "^1.8 || ^2.0@beta",
         "symfony/webpack-encore-bundle": "^1.15"
     },
