@@ -1,8 +1,6 @@
 <?php
 
-use Sylius\Bundle\CoreBundle\SyliusCoreBundle;
-
-$bundles = [
+return [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
@@ -61,9 +59,3 @@ $bundles = [
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
     League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
 ];
-
-if ( defined(SyliusCoreBundle::class.'::VERSION_ID') && SyliusCoreBundle::VERSION_ID >= '11300') {
-    $bundles[Sylius\Abstraction\StateMachine\SyliusStateMachineAbstractionBundle::class] = ['all' => true];
-}
-
-return $bundles;
