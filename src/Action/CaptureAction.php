@@ -28,7 +28,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
 {
     use ApiAwareTrait;
 
-    public function __construct(private readonly SignatureResolverInterface $signatureResolver)
+    public function __construct(private SignatureResolverInterface $signatureResolver)
     {
         $this->apiClass = ImojeApi::class;
     }

@@ -28,8 +28,8 @@ final class NotifyAction implements ActionInterface, ApiAwareInterface
     private ?Request $request;
 
     public function __construct(
-        private readonly RequestStack $requestStack,
-        private readonly SignatureResolverInterface $signatureResolver,
+        private RequestStack $requestStack,
+        private SignatureResolverInterface $signatureResolver,
     ) {
         $this->request = $requestStack->getCurrentRequest();
         $this->apiClass = ImojeApi::class;

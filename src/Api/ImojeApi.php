@@ -13,11 +13,11 @@ namespace BitBag\SyliusImojePlugin\Api;
 class ImojeApi implements ImojeApiInterface
 {
     public function __construct(
-        private readonly string $environment,
-        private readonly string $merchantId,
-        private readonly string $serviceId,
-        private readonly string $serviceKey,
-        private readonly string $authorizationToken,
+        private string $environment,
+        private string $merchantId,
+        private string $serviceId,
+        private string $serviceKey,
+        private string $authorizationToken,
     ) {
     }
 
