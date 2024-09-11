@@ -10,11 +10,11 @@ At BitBag we do believe in open source. However, we are able to do it just becau
 
 * [Support](#we-are-here-to-help)
 * [Installation](#installation)
-    * [Requirements](#requirements)
-    * [Usage](#usage)
-    * [Configuration](#configuration)
+  * [Requirements](#requirements)
+* [Usage](#usage)
+* [Configuration](#configuration)
 * [About us](#about-us)
-    * [Community](#community)
+  * [Community](#community)
 * [Additional Sylius resources for developers](#additional-resources-for-developers)
 * [License](#license)
 * [Contact](#contact)
@@ -26,49 +26,32 @@ This **open-source plugin was developed to help the Sylius community** and make 
 
 [![](https://bitbag.io/wp-content/uploads/2020/10/button-contact.png)](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=plugins_ing)
 
-# Installation
-----
+## Installation
 
+---
 ### Requirements
 
-We work on stable, supported, and up-to-date versions of packages. We recommend you do the same.
+We work on stable, supported and up-to-date versions of packages. We recommend you to do the same.
 
-| Package              | Version |
-|----------------------|---------|
-| PHP                  | ^8.1    |
-| sylius/sylius        | ^1.12   |
+| Package       | Version             |
+|---------------|---------------------|
+| PHP           | \>=8.1              |
+| sylius/sylius | \>=1.12.13 - 1.13.x |
+| MySQL         | \>= 5.7             |
+| NodeJS        | \>= 14.x            |
+
 ----
 
-1. Require our plugin with composer:
+### Full installation guide
+- [See the full installation guide](doc/installation.md)
 
-    ```bash
-    composer require bitbag/imoje-paywall-plugin --with-all-dependencies
-    ```
 
-2. Add plugin dependencies to your `config/bundles.php` file:
-
-    ```php
-    return [
-        ...
-        BitBag\SyliusImojePlugin\BitBagSyliusImojePlugin::class => ['all' => true],
-    ];
-    ```
-
-3. Import the routing in your `config/routes.yaml` file:
-
-    ```yaml
-    # config/routes.yaml
-
-    bitbag_sylius_imoje_plugin:
-      resource: "@BitBagSyliusImojePlugin/config/routing.yml"
-    ```
-
-### Usage
+## Usage
 
 This plugin allows you to use the payment solution delivered by Imoje.
 
 
-### Configuration:
+## Configuration:
 
 To create an ING-based payment method, go to Payment methods in the Sylius admin panel.
 After that, you need to add an ING payment:
