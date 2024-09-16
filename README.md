@@ -55,45 +55,20 @@ We have a 70-person team of experts: business analysts and consultants, eCommerc
 * [Contact and support](#contact-and-support)
 * [Community](#community)
 
-
-
-
 # Installation
 ----
+The installation process for the Imoje Paywall Plugin can be found [here](doc/installation.md).
 
 ## Requirements
+---
+We work on stable, supported and up-to-date versions of packages. We recommend you to do the same.
 
-We work on stable, supported, and up-to-date versions of packages. We recommend you do the same.
-
-| Package              | Version |
-|----------------------|---------|
-| PHP                  | ^8.1    |
-| sylius/sylius        | ^1.12   |
-----
-
-1. Require our plugin with composer:
-
-    ```bash
-    composer require bitbag/imoje-paywall-plugin --with-all-dependencies
-    ```
-
-2. Add plugin dependencies to your `config/bundles.php` file:
-
-    ```php
-    return [
-        ...
-        BitBag\SyliusImojePlugin\BitBagSyliusImojePlugin::class => ['all' => true],
-    ];
-    ```
-
-3. Import the routing in your `config/routes.yaml` file:
-
-    ```yaml
-    # config/routes.yaml
-
-    bitbag_sylius_imoje_plugin:
-      resource: "@BitBagSyliusImojePlugin/config/routing.yml"
-    ```
+| Package       | Version             |
+|---------------|---------------------|
+| PHP           | \>=8.1              |
+| sylius/sylius | \>=1.12.13 - 1.13.x |
+| MySQL         | \>= 5.7             |
+| NodeJS        | \>= 14.x            |
 
 ## Usage
 
