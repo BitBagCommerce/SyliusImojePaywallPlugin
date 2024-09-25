@@ -22,8 +22,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 final class NotifyController
 {
     public function __construct(
-        private readonly Payum $payum,
-        private readonly PaymentTokenProviderInterface $paymentTokenProvider,
+        private Payum $payum,
+        private PaymentTokenProviderInterface $paymentTokenProvider,
     ) {
     }
 

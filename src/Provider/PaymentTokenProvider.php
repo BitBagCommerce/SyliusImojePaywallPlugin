@@ -20,8 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 final class PaymentTokenProvider implements PaymentTokenProviderInterface
 {
     public function __construct(
-        private readonly RepositoryInterface $orderRepository,
-        private readonly RepositoryInterface $paymentTokenRepository,
+        private RepositoryInterface $orderRepository,
+        private RepositoryInterface $paymentTokenRepository,
     ) {
     }
 
