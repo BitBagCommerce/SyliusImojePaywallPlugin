@@ -42,7 +42,16 @@ Add routing to your `config/routes.yaml` file:
 # config/routes.yaml
 
 bitbag_sylius_imoje_plugin:
-    resource: "@BitBagSyliusImojePlugin/config/routing.yml"
+    resource: "@BitBagSyliusImojePlugin/config/routes.yaml"
+```
+
+Import plugin configuration in `config/packages/_sylius.yaml` file:
+```yaml
+    # config/packages/_sylius.yaml
+
+    imports:
+    # ...
+    - { resource: "@BitBagSyliusImojePlugin/config/config.yaml" }
 ```
 
 ## Known issues

@@ -1,2 +1,2 @@
 bitbag_sylius_imoje_plugin:
-    resource: "@BitBagSyliusImojePlugin/config/routing.yml"
+    resource: "@BitBagSyliusImojePlugin/config/routes.yaml"

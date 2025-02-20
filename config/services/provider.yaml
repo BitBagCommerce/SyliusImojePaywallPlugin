@@ -1,0 +1,6 @@
+services:
+    bitbag.imoje_plugin.provider.payment_token_provider:
+        class: BitBag\SyliusImojePlugin\Provider\PaymentTokenProvider
+        arguments:
+            - '@sylius.repository.order'
+            - '@sylius.repository.payment_security_token'
