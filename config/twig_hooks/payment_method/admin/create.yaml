@@ -1,6 +1,6 @@
 sylius_twig_hooks:
     hooks:
-        'sylius_admin.payment_method.create.content.form.sections.gateway_configuration.sylius_payment':
+        'sylius_admin.payment_method.create.content.form.sections.gateway_configuration.imoje_paywall':
             environment:
                 template: '@BitBagSyliusImojePlugin/admin/payment_method/form/environment.html.twig'
                 priority: 400
