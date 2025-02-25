@@ -4,6 +4,8 @@ services:
         arguments:
             - '@sylius.provider.payment_request'
             - '@sylius_abstraction.state_machine'
+            - '@bitbag.imoje_plugin.resolver.signature_resolver'
+            - '@router'
         tags:
             - name: messenger.message_handler
               bus: sylius.payment_request.command_bus
