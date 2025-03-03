@@ -23,13 +23,14 @@ final class ImojeGatewayConfigurationType extends AbstractType
     {
         $builder
             ->add(
-                'environment', ChoiceType::class,
+                'environment',
+                ChoiceType::class,
                 [
-                'choices' => [
-                    'bitbag.imoje_plugin.configuration.production' => ImojeEnvironment::PRODUCTION_ENVIRONMENT,
-                    'bitbag.imoje_plugin.configuration.sandbox' => ImojeEnvironment::SANDBOX_ENVIRONMENT,
-                ],
-                'label' => 'bitbag.imoje_plugin.configuration.environment',
+                    'choices' => [
+                        'bitbag.imoje_plugin.configuration.production' => ImojeEnvironment::PRODUCTION_ENVIRONMENT,
+                        'bitbag.imoje_plugin.configuration.sandbox' => ImojeEnvironment::SANDBOX_ENVIRONMENT,
+                    ],
+                    'label' => 'bitbag.imoje_plugin.configuration.environment',
                 ],
             )
             ->add('merchant_id', TextType::class, [

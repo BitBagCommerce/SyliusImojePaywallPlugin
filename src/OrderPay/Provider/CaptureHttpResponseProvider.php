@@ -19,7 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class CaptureHttpResponseProvider implements HttpResponseProviderInterface
 {
-
     public function supports(RequestConfiguration $requestConfiguration, PaymentRequestInterface $paymentRequest): bool
     {
         return $paymentRequest->getState() === PaymentRequestInterface::STATE_PROCESSING;
