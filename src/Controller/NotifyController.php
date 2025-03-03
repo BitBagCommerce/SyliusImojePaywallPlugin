@@ -38,7 +38,6 @@ final readonly class NotifyController
         }
 
         $data = json_decode($content, true, 512, \JSON_THROW_ON_ERROR);
-
         if (!is_array($data)) {
             return new Response('Invalid JSON structure', Response::HTTP_BAD_REQUEST);
         }
@@ -55,7 +54,6 @@ final readonly class NotifyController
         ));
 
         $orderId = (string) $order->getId();
-
         /** @var PaymentInterface|null $payment */
         $payment = $this->paymentRepository->findOneBy(['order' => $orderId]);
         Assert::notNull($payment, sprintf(
@@ -81,8 +79,8 @@ final readonly class NotifyController
         if (false === $this->signatureResolver->verifySignature($request, $serviceKey)) {
             return new Response('Signature verification failed', Response::HTTP_FORBIDDEN);
         }
-        $imojePaymentStatus = (string) $data['payment']['status'];
 
+        $imojePaymentStatus = (string) $data['payment']['status'];
         $payment->setDetails(['status' => $imojePaymentStatus]);
         $this->entityManager->persist($payment);
         $this->entityManager->flush();

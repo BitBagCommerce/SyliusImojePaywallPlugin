@@ -7,8 +7,7 @@ services:
                 index_by: action
         tags:
             - name: sylius.payment_request.provider.http_response
-                #    TODO for sylius >= 2.0.4 change 'gateway-factory' to gateway_factory
-              'gateway-factory': 'imoje_paywall'
+              gateway_factory: 'imoje_paywall'
           
     bitbag.sylius.provider.order_pay.http_response.imoje_paywall.capture:
         class: BitBag\SyliusImojePlugin\OrderPay\Provider\CaptureHttpResponseProvider

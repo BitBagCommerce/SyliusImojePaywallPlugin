@@ -52,7 +52,7 @@ final readonly class CapturePaymentRequestHandler
         $order = $payment->getOrder();
 
         /** @var string $environment */
-        $environment = $gatewayConfig->getConfig()['environment'];
+        $environment = $gatewayConfig->getConfig()['environment']->value;
         $returnUrl = $this->afterPayUrlProvider->getUrl($paymentRequest, UrlGeneratorInterface::ABSOLUTE_URL);
 
         $paymentRequest->setResponseData([
