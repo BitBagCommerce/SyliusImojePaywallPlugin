@@ -22,14 +22,18 @@ final class CaptureHttpResponseProvider implements HttpResponseProviderInterface
 
     public function supports(RequestConfiguration $requestConfiguration, PaymentRequestInterface $paymentRequest): bool
     {
-        return $paymentRequest->getAction() === PaymentRequestInterface::ACTION_CAPTURE;
+        return $paymentRequest->getState() === PaymentRequestInterface::STATE_PROCESSING;
     }
 
     public function getResponse(RequestConfiguration $requestConfiguration, PaymentRequestInterface $paymentRequest): Response
     {
         $data = $paymentRequest->getResponseData();
+        /** @var string $url */
+        $url = $data['url'];
+        $params = $data['orderData'];
+        $parsedParams = http_build_query($params);
+        $finalUrl = sprintf('%s?%s', $url, $parsedParams);
 
-        // Example: Redirect to an external portal
-        return new RedirectResponse($data['portal_redirect_url']);
+        return new RedirectResponse($finalUrl, Response::HTTP_SEE_OTHER);
     }
 }

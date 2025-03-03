@@ -14,7 +14,7 @@ namespace BitBag\SyliusImojePlugin\Command;
 use Sylius\Bundle\PaymentBundle\Command\PaymentRequestHashAwareInterface;
 use Sylius\Bundle\PaymentBundle\Command\PaymentRequestHashAwareTrait;
 
-final class NotifyPaymentRequest implements PaymentRequestHashAwareInterface
+class CaptureEndPaymentRequest implements PaymentRequestHashAwareInterface
 {
     use PaymentRequestHashAwareTrait;
 

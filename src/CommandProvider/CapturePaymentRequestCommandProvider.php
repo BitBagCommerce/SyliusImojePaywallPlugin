@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusImojePlugin\CommandProvider;
 
+use BitBag\SyliusImojePlugin\Command\CaptureEndPaymentRequest;
 use BitBag\SyliusImojePlugin\Command\CapturePaymentRequest;
 use Sylius\Bundle\PaymentBundle\CommandProvider\PaymentRequestCommandProviderInterface;
 use Sylius\Component\Payment\Model\PaymentRequestInterface;
@@ -19,11 +20,15 @@ final readonly class CapturePaymentRequestCommandProvider implements PaymentRequ
 {
     public function supports(PaymentRequestInterface $paymentRequest): bool
     {
-        return $paymentRequest->getAction() === PaymentRequestInterface::ACTION_CAPTURE;
+        return true;
     }
 
     public function provide(PaymentRequestInterface $paymentRequest): object
     {
+        if (PaymentRequestInterface::STATE_PROCESSING === $paymentRequest->getState()) {
+            return new CaptureEndPaymentRequest($paymentRequest->getId());
+        }
+
         return new CapturePaymentRequest($paymentRequest->getId());
     }
 }

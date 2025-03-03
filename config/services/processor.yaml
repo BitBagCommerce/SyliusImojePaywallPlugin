@@ -1,0 +1,5 @@
+services:
+    bitbag.sylius_imoje_plugin.processor.payment_transition:
+        class: BitBag\SyliusImojePlugin\Processor\PaymentTransitionProcessor
+        arguments:
+            - '@sylius_abstraction.state_machine'

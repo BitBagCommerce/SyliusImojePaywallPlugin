@@ -11,24 +11,33 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusImojePlugin\CommandHandler;
 
-use BitBag\SyliusImojePlugin\Command\NotifyPaymentRequest;
+use BitBag\SyliusImojePlugin\Command\CaptureEndPaymentRequest;
+use BitBag\SyliusImojePlugin\Processor\PaymentTransitionProcessorInterface;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Bundle\PaymentBundle\Provider\PaymentRequestProviderInterface;
+use Sylius\Component\Payment\Model\PaymentRequestInterface;
 use Sylius\Component\Payment\PaymentRequestTransitions;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final readonly class NotifyPaymentRequestHandler
+final readonly class CaptureEndPaymentRequestHandler
 {
     public function __construct(
         private PaymentRequestProviderInterface $paymentRequestProvider,
         private StateMachineInterface $stateMachine,
+        private PaymentTransitionProcessorInterface $paymentTransitionProcessor,
     ) {
     }
 
-    public function __invoke(NotifyPaymentRequest $capturePaymentRequest): void
+    public function __invoke(CaptureEndPaymentRequest $captureEndPaymentRequest): void
     {
-        $paymentRequest = $this->paymentRequestProvider->provide($capturePaymentRequest);
+        $paymentRequest = $this->paymentRequestProvider->provide($captureEndPaymentRequest);
+
+        if (PaymentRequestInterface::STATE_PROCESSING !== $paymentRequest->getState()) {
+            return;
+        }
+
+        $this->paymentTransitionProcessor->process($paymentRequest);
 
         $this->stateMachine->apply(
             $paymentRequest,
