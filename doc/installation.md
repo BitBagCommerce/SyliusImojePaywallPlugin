@@ -46,3 +46,10 @@ For incorrectly displayed translations, execute the command:
 ```bash
 bin/console cache:clear
 ```
+
+### Can't create payment method (Invalid encryption key)
+
+To create a new payment configuration, you need a valid encryption key. If you don’t have one, generate it by running:
+```bash
+bin/console sylius:payment:generate-key
+```
