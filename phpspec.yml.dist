@@ -1,4 +1,0 @@
-suites:
-    main:
-        namespace: BitBag\SyliusImojePlugin
-        psr4_prefix: BitBag\SyliusImojePlugin
