@@ -65,9 +65,6 @@ jobs:
             - name: Run PHPStan
               run: vendor/bin/phpstan analyse -c phpstan.neon -l 7 src/
 
-            - name: Check codesniffer version
-              run: composer show squizlabs/php_codesniffer
-
             - name: Run ECS
               run: vendor/bin/ecs check src --debug
 
