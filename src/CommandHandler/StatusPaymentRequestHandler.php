@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusImojePlugin\CommandHandler;
 
 use BitBag\SyliusImojePlugin\Command\StatusPaymentRequest;
+use BitBag\SyliusImojePlugin\Processor\PaymentTransitionProcessorInterface;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Bundle\PaymentBundle\Provider\PaymentRequestProviderInterface;
 use Sylius\Component\Payment\PaymentRequestTransitions;
@@ -23,12 +24,15 @@ final readonly class StatusPaymentRequestHandler
     public function __construct(
         private PaymentRequestProviderInterface $paymentRequestProvider,
         private StateMachineInterface $stateMachine,
+        private PaymentTransitionProcessorInterface $paymentTransitionProcessor,
     ) {
     }
 
     public function __invoke(StatusPaymentRequest $statusPaymentRequest): void
     {
         $paymentRequest = $this->paymentRequestProvider->provide($statusPaymentRequest);
+
+        $this->paymentTransitionProcessor->process($paymentRequest);
 
         $this->stateMachine->apply(
             $paymentRequest,

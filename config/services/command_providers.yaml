@@ -16,13 +16,7 @@ services:
                 action: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_CAPTURE
     
     bitbag.sylius.command_provider.imoje_paywall.status:
-        class: BitBag\SyliusImojePlugin\CommandProvider\CapturePaymentRequestCommandProvider
+        class: BitBag\SyliusImojePlugin\CommandProvider\StatusPaymentRequestCommandProvider
         tags:
             -   name: bitbag.sylius.command_provider.imoje_paywall
                 action: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_STATUS
-    
-    bitbag.sylius.command_provider.imoje_paywall.notify:
-        class: BitBag\SyliusImojePlugin\CommandProvider\NotifyPaymentRequestCommandProvider
-        tags:
-            -   name: bitbag.sylius.command_provider.imoje_paywall
-                action: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_NOTIFY

@@ -5,5 +5,7 @@ services:
     bitbag.sylius_imoje_plugin.controller.notify_controller:
         class: BitBag\SyliusImojePlugin\Controller\NotifyController
         arguments:
-            - '@payum'
-            - '@bitbag.imoje_plugin.provider.payment_token_provider'
+            - '@sylius.repository.order'
+            - '@sylius.repository.payment'
+            - '@doctrine.orm.entity_manager'
+            - '@bitbag.imoje_plugin.resolver.signature_resolver'
