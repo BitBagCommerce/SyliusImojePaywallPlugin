@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        public: true
+
+    bitbag.sylius_imoje_plugin.controller.notify_controller:
+        class: BitBag\SyliusImojePlugin\Controller\NotifyController
+        arguments:
+            - '@payum'
+            - '@bitbag.imoje_plugin.provider.payment_token_provider'

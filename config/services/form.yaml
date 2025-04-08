@@ -1,0 +1,8 @@
+services:
+    bitbag.imoje_plugin.form.type.gateway_configuration:
+        class: BitBag\SyliusImojePlugin\Form\Type\ImojeGatewayConfigurationType
+        tags:
+            - name: sylius.gateway_configuration_type
+              type: sylius_payment
+              label: 'bitbag.imoje_plugin.gateway_label'
+            - name: form.type

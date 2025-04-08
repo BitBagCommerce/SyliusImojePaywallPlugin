@@ -1,0 +1,2 @@
+imports:
+    - { resource: "@BitBagSyliusImojePlugin/config/config.yaml" }
