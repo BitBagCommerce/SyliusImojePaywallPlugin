@@ -1,0 +1,16 @@
+services:
+    bitbag.sylius.http_response_provider.imoje_paywall:
+        class: Sylius\Bundle\PaymentBundle\Provider\ActionsHttpResponseProvider
+        arguments:
+            - !tagged_locator
+                tag: bitbag.sylius.http_response_provider.imoje_paywall
+                index_by: action
+        tags:
+            - name: sylius.payment_request.provider.http_response
+              gateway_factory: 'imoje_paywall'
+    
+    bitbag.sylius.http_response_provider.imoje_paywall.capture:
+        class: BitBag\SyliusImojePlugin\OrderPay\Provider\CaptureHttpResponseProvider
+        tags:
+            -   name: bitbag.sylius.http_response_provider.imoje_paywall
+                action: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_CAPTURE

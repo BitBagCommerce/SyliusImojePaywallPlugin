@@ -1,0 +1,29 @@
+services:
+    bitbag.sylius.command_handlers.imoje_paywall.capture:
+        class: BitBag\SyliusImojePlugin\CommandHandler\CapturePaymentRequestHandler
+        arguments:
+            - '@sylius.provider.payment_request'
+            - '@sylius_abstraction.state_machine'
+        tags:
+            - name: messenger.message_handler
+              bus: sylius.payment_request.command_bus
+    
+    bitbag.sylius.command_handlers.imoje_paywall.status:
+        class: BitBag\SyliusImojePlugin\CommandHandler\StatusPaymentRequestHandler
+        arguments:
+            - '@sylius.provider.payment_request'
+            - '@sylius_abstraction.state_machine'
+        tags:
+            -   name: messenger.message_handler
+                bus: sylius.payment_request.command_bus
+                handles: BitBag\SyliusImojePlugin\Command\StatusPaymentRequest
+    
+    bitbag.sylius.command_handlers.imoje_paywall.notify:
+        class: BitBag\SyliusImojePlugin\CommandHandler\NotifyPaymentRequestHandler
+        arguments:
+            - '@sylius.provider.payment_request'
+            - '@sylius_abstraction.state_machine'
+        tags:
+            -   name: messenger.message_handler
+                bus: sylius.payment_request.command_bus
+                handles: BitBag\SyliusImojePlugin\Command\NotifyPaymentRequest
