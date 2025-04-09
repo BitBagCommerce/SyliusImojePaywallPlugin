@@ -13,6 +13,10 @@ namespace BitBag\SyliusImojePlugin\Enum;
 
 enum ImojeEnvironment: string
 {
+    case PRODUCTION_ENVIRONMENT = 'production';
+
+    case SANDBOX_ENVIRONMENT = 'sandbox';
+
     case PRODUCTION_URL = 'https://paywall.imoje.pl/payment';
 
     case SANDBOX_URL = 'https://sandbox.paywall.imoje.pl/payment';

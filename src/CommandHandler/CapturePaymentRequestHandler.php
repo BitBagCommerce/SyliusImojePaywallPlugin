@@ -98,6 +98,6 @@ final readonly class CapturePaymentRequestHandler
 
     private function getPaymentUrl(string $environment): string
     {
-        return $environment === 'production' ? ImojeEnvironment::PRODUCTION_URL->value : ImojeEnvironment::SANDBOX_URL->value;
+        return $environment === ImojeEnvironment::PRODUCTION_ENVIRONMENT->value ? ImojeEnvironment::PRODUCTION_URL->value : ImojeEnvironment::SANDBOX_URL->value;
     }
 }

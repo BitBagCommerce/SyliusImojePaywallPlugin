@@ -1,7 +1,0 @@
-services:
-    bitbag.imoje_plugin.gateway_factory:
-        class: Payum\Core\Bridge\Symfony\Builder\GatewayFactoryBuilder
-        arguments:
-            - 'BitBag\SyliusImojePlugin\ImojeGatewayFactory'
-        tags:
-            - { name: payum.gateway_factory_builder, factory: imoje }
