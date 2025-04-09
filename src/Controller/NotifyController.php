@@ -59,7 +59,7 @@ final readonly class NotifyController
         /** @var PaymentInterface|null $payment */
         $payment = $this->paymentRepository->findOneBy(['order' => $orderId]);
         Assert::notNull($payment, sprintf(
-            'There is no payment registred for order: %s.',
+            'There is no payment registered for order: %s.',
             $orderId,
         ));
 
