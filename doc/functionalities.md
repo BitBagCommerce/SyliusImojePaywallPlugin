@@ -11,14 +11,12 @@ It is a comprehensive payment gateway service, offering various payment methods 
 
 - After an installation, user should be able to create new `Imoje gateway` payment method in the `Payment methods` section in the admin panel.
 
-<div align="center">
-    <img src="./create_ing_method.png"/>
-</div>
+![Screenshot showing payment method config in admin](./create_imoje_payment_method.png)
 
 - And now, you can configure your payment method in the admin panel:
 
-<div align="center">
-    <img src="./payment_method_config.png"/>
-</div>
+![Screenshot showing payment method config in admin](./payment_method_config.png)
 
 - After this, created payment method should be visible in the checkout.
+
+![Screenshot showing visible payment method in shop checkout](./shop_checkout.png)
