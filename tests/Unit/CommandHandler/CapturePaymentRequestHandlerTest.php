@@ -63,7 +63,7 @@ final class CapturePaymentRequestHandlerTest extends TestCase
 
         $paymentMethod->method('getGatewayConfig')->willReturn($gatewayConfig);
         $gatewayConfig->method('getConfig')->willReturn([
-            'environment' => 'sandbox',
+            'environment' => ImojeEnvironment::SANDBOX_ENVIRONMENT,
             'service_key' => 'test_key',
             'service_id' => 'test_service',
             'merchant_id' => 'test_merchant',
