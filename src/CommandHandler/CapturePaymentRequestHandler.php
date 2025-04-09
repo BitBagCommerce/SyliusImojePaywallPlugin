@@ -33,7 +33,8 @@ final readonly class CapturePaymentRequestHandler
         private StateMachineInterface $stateMachine,
         private SignatureResolverInterface $signatureResolver,
         private UrlProviderInterface $afterPayUrlProvider,
-    ) {}
+    ) {
+    }
 
     public function __invoke(CapturePaymentRequest $capturePaymentRequest): void
     {
@@ -62,14 +63,14 @@ final readonly class CapturePaymentRequestHandler
         $this->stateMachine->apply(
             $paymentRequest,
             PaymentRequestTransitions::GRAPH,
-            PaymentRequestTransitions::TRANSITION_PROCESS
+            PaymentRequestTransitions::TRANSITION_PROCESS,
         );
     }
 
     private function prepareOrderData(
         OrderInterface $order,
         GatewayConfigInterface $gatewayConfig,
-        string $returnUrl
+        string $returnUrl,
     ): array {
         $orderData = [];
 

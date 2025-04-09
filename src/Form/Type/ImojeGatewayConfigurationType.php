@@ -23,7 +23,8 @@ final class ImojeGatewayConfigurationType extends AbstractType
     {
         $builder
             ->add(
-                'environment', ChoiceType::class,
+                'environment',
+                ChoiceType::class,
                 [
                     'choices' => [
                         'bitbag.imoje_plugin.configuration.production' => ImojeEnvironment::PRODUCTION_ENVIRONMENT,

@@ -37,7 +37,7 @@ final readonly class NotifyController
             return new Response('There is no content in request.', Response::HTTP_NO_CONTENT);
         }
 
-        $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        $data = json_decode($content, true, 512, \JSON_THROW_ON_ERROR);
 
         if (!is_array($data)) {
             return new Response('Invalid JSON structure', Response::HTTP_BAD_REQUEST);
