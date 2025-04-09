@@ -7,7 +7,7 @@ services:
                 index_by: 'action'
         tags:
             - name: sylius.payment_request.command_provider
-              'gateway-factory': 'imoje_paywall'
+              gateway_factory: 'imoje_paywall'
     
     bitbag.sylius.command_provider.imoje_paywall.capture:
         class: BitBag\SyliusImojePlugin\CommandProvider\CapturePaymentRequestCommandProvider
