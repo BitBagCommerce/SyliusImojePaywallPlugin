@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusImojePlugin\Resolver;
 
-use BitBag\SyliusImojePlugin\Api\ImojeApiInterface;
+use BitBag\SyliusImojePlugin\Enum\ImojeEnvironment;
 use Symfony\Component\HttpFoundation\Request;
 use Webmozart\Assert\Assert;
 
@@ -31,7 +31,7 @@ final class SignatureResolver implements SignatureResolverInterface
 
         $dataString = implode('&', $data);
 
-        return hash(ImojeApiInterface::HASHING_ALGORITHM, $dataString . $serviceKey) . ';' . ImojeApiInterface::HASHING_ALGORITHM;
+        return hash(ImojeEnvironment::HASHING_ALGORITHM->value, $dataString . $serviceKey) . ';' . ImojeEnvironment::HASHING_ALGORITHM->value;
     }
 
     public function verifySignature(Request $request, string $serviceKey): bool
