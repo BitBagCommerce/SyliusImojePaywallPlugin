@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusImojePlugin\Command;
 
-
 use Sylius\Bundle\PaymentBundle\Command\PaymentRequestHashAwareInterface;
 use Sylius\Bundle\PaymentBundle\Command\PaymentRequestHashAwareTrait;
 
