@@ -1,70 +1,93 @@
 <?php
 
 /*
- * This file was created by developers working at BitBag
- * Do you need more information about us and what we do? Visit our https://bitbag.io website!
- * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
-*/
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
 
 declare(strict_types=1);
 
 namespace BitBag\SyliusImojePlugin\Controller;
 
-use BitBag\SyliusImojePlugin\Provider\PaymentTokenProviderInterface;
-use Payum\Core\Payum;
-use Payum\Core\Request\Notify;
-use Sylius\Bundle\PayumBundle\Model\PaymentSecurityTokenInterface;
+use BitBag\SyliusImojePlugin\Resolver\SignatureResolverInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Component\Core\Model\PaymentInterface;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Webmozart\Assert\Assert;
 
-final class NotifyController
+final readonly class NotifyController
 {
     public function __construct(
-        private Payum $payum,
-        private PaymentTokenProviderInterface $paymentTokenProvider,
+        private OrderRepositoryInterface $orderRepository,
+        private PaymentRepositoryInterface $paymentRepository,
+        private EntityManagerInterface $entityManager,
+        private SignatureResolverInterface $signatureResolver,
     ) {
     }
 
     public function verifyImojeNotification(Request $request): Response
     {
-        if ('' === $request->getContent()) {
-            return new Response('', Response::HTTP_NO_CONTENT);
+        $content = $request->getContent();
+        if ('' === $content) {
+            return new Response('There is no content in request.', Response::HTTP_NO_CONTENT);
         }
 
-        $paymentToken = $this->paymentTokenProvider->provideToken($request);
-
-        if (null === $paymentToken) {
-            throw new NotFoundHttpException('Payment token not found');
+        $data = json_decode($content, true, 512, \JSON_THROW_ON_ERROR);
+        if (!is_array($data)) {
+            return new Response('Invalid JSON structure', Response::HTTP_BAD_REQUEST);
         }
 
-        $notifyToken = $this->payum->getHttpRequestVerifier()->verify($this->createRequestWithToken($request, $paymentToken));
-        $gateway = $this->payum->getGateway($notifyToken->getGatewayName());
+        $orderNumber = (string) $data['payment']['orderId'];
+        if ('' === $orderNumber) {
+            return new Response('There is no order number in request data.', Response::HTTP_NO_CONTENT);
+        }
 
-        $gateway->execute(new Notify($notifyToken));
+        $order = $this->orderRepository->findOneByNumber($orderNumber);
+        Assert::notNull($order, sprintf(
+            'There is no order for number: %s.',
+            $orderNumber,
+        ));
 
-        return new JsonResponse(['status' => 'ok']);
-    }
+        $orderId = (string) $order->getId();
+        /** @var PaymentInterface|null $payment */
+        $payment = $this->paymentRepository->findOneBy(['order' => $orderId]);
+        Assert::notNull($payment, sprintf(
+            'There is no payment registered for order: %s.',
+            $orderId,
+        ));
 
-    private function createRequestWithToken(
-        Request $request,
-        PaymentSecurityTokenInterface $token,
-    ): Request {
-        $request = Request::create(
-            $token->getTargetUrl(),
-            $request->getMethod(),
-            $request->query->all(),
-            $request->cookies->all(),
-            $request->files->all(),
-            $request->server->all(),
-            $request->getContent(),
-        );
+        $paymentMethod = $payment->getMethod();
+        Assert::notNull($paymentMethod, sprintf(
+            'There is no payment method in payment: %s.',
+            $payment->getId(),
+        ));
 
-        $request->attributes->add([
-            'payum_token' => $token->getHash(),
+        $gatewayConfig = $paymentMethod->getGatewayConfig();
+        Assert::notNull($gatewayConfig, sprintf(
+            'The payment method (code: %s) has not been configured.',
+            $paymentMethod->getCode(),
+        ));
+
+        /** @var string $serviceKey */
+        $serviceKey = $gatewayConfig->getConfig()['service_key'];
+
+        if (false === $this->signatureResolver->verifySignature($request, $serviceKey)) {
+            return new Response('Signature verification failed', Response::HTTP_FORBIDDEN);
+        }
+
+        $imojePaymentStatus = (string) $data['payment']['status'];
+        $payment->setDetails(['status' => $imojePaymentStatus]);
+        $this->entityManager->persist($payment);
+        $this->entityManager->flush();
+
+        return new JsonResponse([
+            'status' => $imojePaymentStatus,
         ]);
-
-        return $request;
     }
 }

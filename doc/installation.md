@@ -10,16 +10,6 @@ ADDITIONAL
 - [Known Issues](#known-issues)
 ---
 
-## Requirements:
-We work on stable, supported and up-to-date versions of packages. We recommend you to do the same.
-
-| Package       | Version             |
-|---------------|---------------------|
-| PHP           | \>=8.1              |
-| sylius/sylius | \>=1.12.13 - 1.13.x |
-| MySQL         | \>= 5.7             |
-| NodeJS        | \>= 14.x            |
-
 ## Composer:
 ```bash
 composer require bitbag/imoje-paywall-plugin --with-all-dependencies
@@ -39,10 +29,15 @@ return [
 
 Add routing to your `config/routes.yaml` file:
 ```yaml
-# config/routes.yaml
-
 bitbag_sylius_imoje_plugin:
-    resource: "@BitBagSyliusImojePlugin/config/routing.yml"
+    resource: "@BitBagSyliusImojePlugin/config/routes.yaml"
+```
+
+Import plugin configuration in `config/packages/_sylius.yaml` file:
+```yaml
+    imports:
+        # ...
+        - { resource: "@BitBagSyliusImojePlugin/config/config.yaml" }
 ```
 
 ## Known issues
@@ -50,4 +45,11 @@ bitbag_sylius_imoje_plugin:
 For incorrectly displayed translations, execute the command:
 ```bash
 bin/console cache:clear
+```
+
+### Can't create payment method (Invalid encryption key)
+
+To create a new payment configuration, you need a valid encryption key. If you don’t have one, generate it by running:
+```bash
+bin/console sylius:payment:generate-key
 ```

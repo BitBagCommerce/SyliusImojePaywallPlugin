@@ -1,0 +1,11 @@
+bitbag:
+    imoje_plugin:
+        configuration:
+            merchant_id:
+                not_blank: Please enter a merchant ID.
+            service_id:
+                not_blank: Please enter a service ID.
+            service_key:
+                not_blank: Please enter a service key.
+            authorization_token:
+                not_blank: Please enter an authorization token.
